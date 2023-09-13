@@ -1,18 +1,28 @@
 package indi.haorui.ianalysis.hub;
 
-import java.util.function.Consumer;
-import java.util.function.Predicate;
+import org.springframework.core.ResolvableType;
+
+import java.util.Objects;
 
 /**
  * Created by Yang Hao.rui on 2023/8/14
  */
 
-public interface Subscriber extends Consumer<Event<?>> {
+public interface Subscriber<T extends Event> {
 
-    String id();
+    default String id() {
+        return this.getTypeName();
+    }
 
-    void subscribe(Event<?> event);
+    void subscribe(T event);
 
-    Predicate<Event<?>> match();
+    default boolean match(T event) {
+        return true;
+    }
+
+    default String getTypeName() {
+        ResolvableType generic = ResolvableType.forClass(this.getClass()).as(Subscriber.class).getGeneric();
+        return Objects.requireNonNull(generic.getRawClass()).getTypeName();
+    }
 
 }

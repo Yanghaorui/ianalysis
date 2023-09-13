@@ -25,15 +25,21 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+//    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
-    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
+//    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
+    // https://mvnrepository.com/artifact/org.quartz-scheduler/quartz
+    implementation group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.2'
+    // https://mvnrepository.com/artifact/cn.hutool/hutool-all
+    implementation group: 'cn.hutool', name: 'hutool-all', version: '5.8.21'
+    implementation 'org.greenrobot:eventbus:3.2.0'
+
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}
