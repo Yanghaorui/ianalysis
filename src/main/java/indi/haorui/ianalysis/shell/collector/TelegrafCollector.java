@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 import indi.haorui.ianalysis.actor.ActorSystem;
 import indi.haorui.ianalysis.actor.SchedulerActor;
 import indi.haorui.ianalysis.enums.ActorStatus;
+import indi.haorui.ianalysis.hub.Event;
 import indi.haorui.ianalysis.hub.Hub;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.time.Instant;
 
 /**
  * Created by Yang Hao.rui on 2023/8/28
@@ -29,7 +31,6 @@ public class TelegrafCollector extends SchedulerActor {
         ActorSystem.register(this);
     }
 
-
     @Override
     public void act() {
         DatagramPacket packet
@@ -41,7 +42,7 @@ public class TelegrafCollector extends SchedulerActor {
         }
         byte[] data = packet.getData();
         String s = new String(data, 0, packet.getLength());
-        Output bean = JSONUtil.toBean(s, Output.class);
+        Metedata bean = JSONUtil.toBean(s, Metedata.class);
         Hub.hub(bean);
     }
 

@@ -1,28 +1,33 @@
 package indi.haorui.ianalysis.model;
 
 import lombok.Data;
+import lombok.NonNull;
 import org.springframework.util.Assert;
+
+import java.math.BigDecimal;
 
 /**
  * Created by Yang Hao.rui on 2023/8/29
  */
 @Data
-public class Metric <M> implements ValueObject<Metric<M>>{
+public class Metric implements ValueObject<Metric>{
 
-    private M metric;
+    private String key;
 
-    public Metric(M metric) {
-        Assert.notNull(metric, "metric is null");
+    private BigDecimal metric;
+
+    public Metric(@NonNull BigDecimal metric, @NonNull String key) {
+        this.key = key;
         this.metric = metric;
     }
 
-    public  static <M> Metric<M> of(M t){
-        return new Metric<>(t);
+    public static Metric of(@NonNull BigDecimal t, String key){
+        return new Metric(t, key);
     }
 
 
     @Override
-    public boolean sameValueAs(Metric<M> other) {
-        return metric.equals(other);
+    public boolean sameValueAs(Metric other) {
+        return key.equals(other.key) && metric.equals(other);
     }
 }

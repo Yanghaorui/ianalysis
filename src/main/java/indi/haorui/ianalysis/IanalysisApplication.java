@@ -1,5 +1,6 @@
 package indi.haorui.ianalysis;
 
+import indi.haorui.ianalysis.hub.Hub;
 import lombok.NonNull;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.SpringApplication;
@@ -15,6 +16,7 @@ public class IanalysisApplication implements ApplicationContextAware {
 
     public static void main(String[] args) {
         SpringApplication.run(IanalysisApplication.class, args);
+        new Hub();
     }
 
     @Override

@@ -1,16 +1,13 @@
 package indi.haorui.ianalysis.shell.collector;
 
 import cn.hutool.json.JSONObject;
-import indi.haorui.ianalysis.hub.Event;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * Created by Yang Hao.rui on 2023/8/31
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class Output extends Event {
+public class Metedata {
 
     private JSONObject fields;
 

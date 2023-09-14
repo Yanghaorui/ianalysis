@@ -20,7 +20,7 @@ public class CPUManager implements Subscriber<CPU> {
 
     @PostConstruct
     public void init(){
-        Hub.subscribe(this);
+        Hub.register(this);
         ActorSystem.register(new BaseActor() {
             @Override
             public void act() {
@@ -32,7 +32,9 @@ public class CPUManager implements Subscriber<CPU> {
     }
 
     @Override
-    public void subscribe(CPU event) {
-        System.out.println(event);
+    public void subscribe(CPU cpu) {
+        CPU_MAP.put(cpu.key(), cpu);
+        cpu.getMetric().forEach(Hub::hub);
     }
+
 }

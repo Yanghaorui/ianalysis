@@ -8,10 +8,10 @@ import java.util.Objects;
  * Created by Yang Hao.rui on 2023/8/14
  */
 
-public interface Subscriber<T extends Event> {
+public interface Subscriber<T> {
 
     default String id() {
-        return this.getTypeName();
+        return this.getClass().getTypeName();
     }
 
     void subscribe(T event);
@@ -20,9 +20,9 @@ public interface Subscriber<T extends Event> {
         return true;
     }
 
-    default String getTypeName() {
+    default Class<?> getTypeName() {
         ResolvableType generic = ResolvableType.forClass(this.getClass()).as(Subscriber.class).getGeneric();
-        return Objects.requireNonNull(generic.getRawClass()).getTypeName();
+        return generic.getRawClass();
     }
 
 }

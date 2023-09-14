@@ -1,17 +1,14 @@
 package indi.haorui.ianalysis.model;
 
-import org.springframework.util.Assert;
+import lombok.NonNull;
 
 /**
  * Created by Yang Hao.rui on 2023/8/29
  */
-public record Tag<T>(T tag) implements ValueObject<Tag<T>> {
+public record Tag<T>(@NonNull T tag) implements ValueObject<Tag<T>> {
 
-    public Tag {
-        Assert.notNull(tag, "tag is null");
-    }
 
-    public  static <T> Tag<T> of(T t){
+    public static <T> Tag<T> of(@NonNull T t) {
         return new Tag<>(t);
     }
 
