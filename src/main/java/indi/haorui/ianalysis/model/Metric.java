@@ -2,7 +2,6 @@ package indi.haorui.ianalysis.model;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 
@@ -12,22 +11,19 @@ import java.math.BigDecimal;
 @Data
 public class Metric implements ValueObject<Metric>{
 
-    private String key;
-
     private BigDecimal metric;
 
-    public Metric(@NonNull BigDecimal metric, @NonNull String key) {
-        this.key = key;
+    public Metric(@NonNull BigDecimal metric) {
         this.metric = metric;
     }
 
-    public static Metric of(@NonNull BigDecimal t, String key){
-        return new Metric(t, key);
+    public static Metric of(@NonNull BigDecimal t){
+        return new Metric(t);
     }
 
 
     @Override
     public boolean sameValueAs(Metric other) {
-        return key.equals(other.key) && metric.equals(other);
+        return metric.equals(other.getMetric());
     }
 }

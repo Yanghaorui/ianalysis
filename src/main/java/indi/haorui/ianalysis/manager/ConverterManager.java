@@ -1,7 +1,6 @@
 package indi.haorui.ianalysis.manager;
 
 import indi.haorui.ianalysis.enums.WareType;
-import indi.haorui.ianalysis.hub.Event;
 import indi.haorui.ianalysis.hub.Hub;
 import indi.haorui.ianalysis.hub.Subscriber;
 import indi.haorui.ianalysis.model.Metric;
@@ -41,19 +40,12 @@ public class ConverterManager implements Subscriber<Metedata> {
 
     private Consumer<Metedata> cpuConverter() {
         return metedata -> {
-            String cpuStr = metedata.getTag("cpu", String.class);
-            String host = metedata.getTag("host", String.class);
-            String key = cpuStr + host;
-            BigDecimal usageIdle = metedata.getField("usage_idle", BigDecimal.class);
-            BigDecimal usageSystem = metedata.getField("usage_system", BigDecimal.class);
-            BigDecimal usageUser = metedata.getField("usage_user", BigDecimal.class);
-
             CPU cpu = CPU.builder()
-                    .cpu(Tag.of(cpuStr))
-                    .host(Tag.of(host))
-                    .usageIdle(Metric.of(usageIdle, key))
-                    .usageUser(Metric.of(usageUser, key))
-                    .usageSystem(Metric.of(usageSystem, key))
+                    .cpu(Tag.of(metedata.getTag("cpu", String.class)))
+                    .host(Tag.of(metedata.getTag("host", String.class)))
+                    .usageIdle(Metric.of(metedata.getField("usage_idle", BigDecimal.class)))
+                    .usageUser(Metric.of(metedata.getField("usage_user", BigDecimal.class)))
+                    .usageSystem(Metric.of(metedata.getField("usage_system", BigDecimal.class)))
                     .timestamp(Instant.ofEpochSecond(metedata.getTimestamp()))
                     .build();
             Hub.hub(cpu);

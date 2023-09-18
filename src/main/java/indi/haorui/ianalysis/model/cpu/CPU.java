@@ -8,6 +8,8 @@ import lombok.Getter;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Created by Yang Hao.rui on 2023/8/28
@@ -40,7 +42,7 @@ public class CPU implements Entity<CPU> {
     }
 
     public List<Metric> getMetric(){
-        return List.of(usageUser, usageIdle, usageSystem);
+        return Stream.of(usageUser, usageIdle, usageSystem).filter(Objects::nonNull).toList();
     }
 
 }

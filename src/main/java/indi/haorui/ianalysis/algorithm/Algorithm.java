@@ -8,7 +8,20 @@ import java.math.BigDecimal;
 
 public interface Algorithm {
 
+    /**
+     *
+     * @param in 计算
+     * @return 计算结果
+     */
     BigDecimal calculate(BigDecimal in);
+
+    /**
+     * 是否满足计算条件
+     * @param in 入参
+     */
+    boolean condition(BigDecimal in);
+
+    Algorithm next();
 
 
 }
