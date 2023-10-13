@@ -1,12 +1,14 @@
 package indi.haorui.ianalysis.actor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.threads.VirtualThreadExecutor;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
 import java.util.Objects;
 import java.util.Queue;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -15,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class ActorSystem {
 
-    private static final ThreadPoolExecutor EXECUTOR;
+    private static final Executor EXECUTOR;
 
     private static final Queue<BaseActor> ACTORS = new ConcurrentLinkedQueue<>();
     private static final Scheduler SCHEDULER;
@@ -27,13 +29,16 @@ public class ActorSystem {
 
     static {
 
-        EXECUTOR = new ThreadPoolExecutor(
-                1 << 4, 1 << 7, 2L, TimeUnit.MINUTES, new LinkedBlockingQueue<>(1 << 10),
-                r -> new Thread(r, "actor-" + ACTOR_INDEX.getAndIncrement() + "-"),
-                (r, executor) -> {
-                    log.error("reject" + r.toString());
-                }
-        );
+//        EXECUTOR = new ThreadPoolExecutor(
+//                1 << 4, 1 << 7, 2L, TimeUnit.MINUTES, new LinkedBlockingQueue<>(1 << 10),
+//                r -> new Thread(r, "actor-" + ACTOR_INDEX.getAndIncrement() + "-"),
+//                (r, executor) -> {
+//                    log.error("reject" + r.toString());
+//                }
+//        );
+
+         EXECUTOR = new VirtualThreadExecutor("virtual-actor-");
+
         try {
             SCHEDULER = StdSchedulerFactory.getDefaultScheduler();
             SCHEDULER.start();
